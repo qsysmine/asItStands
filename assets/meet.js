@@ -24,10 +24,6 @@
     getMeets().then((meets) => {
       var meet = meets.val()[meetID];
       if (!meet) return;
-      if (!meet.active) {
-        var contentForm = document.getElementById("content-form");
-        contentForm.parentNode.removeChild(contentForm);
-      }
       var meetName = meet.name;
       document.getElementById("meet-name-header").innerText = meetName;
       document.getElementsByTagName("title")[0].innerText = meetName + " : As It Stands";
@@ -45,6 +41,10 @@
         }
         var isAdmin = true;
         var sigla = function() {
+          if (!meet.active && !isAdmin) {
+            var contentForm = document.getElementById("content-form");
+            contentForm.parentNode.removeChild(contentForm);
+          }
           document.getElementById("info-items").innerHTML = meetStatusesArray.sort((a, b) => {
             return b.timestamp - a.timestamp
           }).map((meetStatus) => {return createInfoItem(meetStatus, isAdmin)}).join("\n");
