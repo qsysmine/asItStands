@@ -20,6 +20,9 @@
     for (meetID in meets.val()) {
       meetsArray.push(meets.val()[meetID]);
     }
+    meetsArray.sort((a, b) => {
+      return Date.parse(a.date) - Date.parse(b.date);
+    })
     document.getElementById("list-meets").innerHTML = meetsArray.map(createListItem).join("\n");
   });
 })();
