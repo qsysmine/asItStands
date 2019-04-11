@@ -28,34 +28,39 @@
       document.getElementById("meet-name-header").innerText = meetName;
       document.getElementsByTagName("title")[0].innerText = meetName + " : As It Stands";
       getMeetStatus(meetID, (meetStatuses) => {
-        console.log("resolve called");
         var meetStatusesArray = [];
         for (meetStatusID in meetStatuses.val()) {
           meetStatusesArray.push(meetStatuses.val()[meetStatusID]);
         }
-        if (meetStatusesArray.length == 0) {
-          document.getElementById("info-items").innerHTML = '<li class="info-item" id="info-item-template">\
-           <p class="info-item-content font-graph">No info yet. {{action}}.</p>\
-           </li>'.replace(/{{action}}/g, meet.active ? "Try submitting something ↑" : "Check back later for more");
-          return;
-        }
         var isAdmin = true;
+
         var sigla = function() {
-          if (!meet.active && !isAdmin) {
-            var contentForm = document.getElementById("content-form");
-            contentForm.parentNode.removeChild(contentForm);
-          }
+          console.log(meet);
+
           document.getElementById("info-items").innerHTML = meetStatusesArray.sort((a, b) => {
             return b.timestamp - a.timestamp
           }).map((meetStatus) => {return createInfoItem(meetStatus, isAdmin)}).join("\n");
+
+          if (!meet.active && !isAdmin && document.getElementById("content-form") != null) {
+            var contentForm = document.getElementById("content-form");
+            contentForm.parentNode.removeChild(contentForm);
+          }
+
+          if (meetStatusesArray.length == 0) {
+            document.getElementById("info-items").innerHTML = '<li class="info-item" id="info-item-template">\
+             <p class="info-item-content font-graph">No info yet. {{action}}.</p>\
+             </li>'.replace(/{{action}}/g, meet.active ? "Try submitting something ↑" : "Check back later for more");
+            return;
+          }
+
         };
+
         firebase.database().ref("admins").once("value").catch(() => {
           isAdmin = false;
-          sigla()
-        }).then(() => {
-          sigla()
+          console.log("not admin");
+        }).finally(() => {
+          sigla();
         });
-
       });
     });
 })();
