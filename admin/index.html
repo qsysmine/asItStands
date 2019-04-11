@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../assets/graph.css" async>
+  <link rel="stylesheet" href="../assets/asItStands.css" async>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>AS IT STANDS</title>
+</head>
+<body>
+  <div class="header font-graph">
+    <a href="..">AS <span class="color-yellow">IT</span> STANDS</a>
+  </div>
+
+  <div class="login-panel">
+    <a href="javascript:adminLogin()" class="font-graph">Log in</a>
+  </div>
+  <div class="hidden" id="admin-console"></div>
+
+  <div class="footer">
+    <p>AS IT STANDS © 2019 Ari Stassinopoulos. A service provided for the Iron Horse Mafia.</p>
+    <img src="../assets/ironHorseMafia@270.png" alt="Iron Horse Mafia Logo">
+  </div>
+</body>
+<!--fb-->
+<script src="https://www.gstatic.com/firebasejs/5.9.3/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAIgYi69BkKChvtJkR-IIj9LEIv-0MRxuU",
+    authDomain: "trackstatus-9ba2c.firebaseapp.com",
+    databaseURL: "https://trackstatus-9ba2c.firebaseio.com",
+    projectId: "trackstatus-9ba2c",
+    storageBucket: "trackstatus-9ba2c.appspot.com",
+    messagingSenderId: "16478379562"
+  };
+  firebase.initializeApp(config);
+</script>
+<!--/fb-->
+<script src="../assets/sampleData.js"></script>
+<script src="../assets/admin.js"></script>
+</html>

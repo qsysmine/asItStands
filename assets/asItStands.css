@@ -1,0 +1,225 @@
+body {
+  background-color: #000;
+  color: #FFF;
+  padding: 0;
+  margin: 0;
+  font-family: monospace;
+  font-size: 1.1em;
+}
+
+date {
+  font-size: 0.8em;
+}
+
+.info-item {
+  padding: 1em;
+  display:flex;
+  flex-direction:row;
+}
+
+.info-item-content {
+  font-size: 1.5em;
+}
+
+.info-item:nth-child(2n+1) {
+  background-color: #333;
+}
+
+.info-item:nth-child(2n+0) {
+  background-color: #555;
+}
+
+.info-item:last-child {
+  border-radius: 0 0 1em 1em;
+}
+.info-item-mostPart {
+  flex:1;
+}
+.info-item-deleteButton {
+  display:flex;
+  align-items: center;
+}
+.info-item-deleteButton>a {
+  color:#FFF;
+  text-decoration: none;
+  background-color:#555;
+  padding:1em;
+  margin-top:0.1em;
+}
+
+.list-meets-item {
+  display: flex;
+  margin: 1em;
+  border-radius: 1em;
+  background-color: #333;
+  flex-direction: row;
+}
+
+.list-meets-item-part {
+  display: flex;
+  align-items: center;
+  padding: 1em;
+  flex: 1;
+}
+
+.list-meets-item-part:nth-child(1) {
+  border-top-left-radius: 1em;
+  border-bottom-left-radius: 1em;
+  background-color: #333;
+}
+
+.list-meets-item-part:nth-child(2) {
+  border-top-right-radius: 1em;
+  border-bottom-right-radius: 1em;
+  background-color: #555;
+}
+
+.list-meets-item-link {
+  color: #FFF;
+  font-size: 1.5em;
+  text-decoration: none;
+  border: 0.5px solid #FFF;
+  border-radius: 10px;
+  padding: 0.5em;
+}
+
+.list-meets-item-link:hover {
+  color: #000;
+  font-size: 1.5em;
+  text-decoration: none;
+  background-color: #FFF;
+}
+
+.list-meets-item-link[disabled] {
+  color: #777;
+  font-size: 1.5em;
+  text-decoration: none;
+  border: 1px solid #777;
+}
+
+.list-meets-item-link[disabled]:hover {
+  color: #777;
+  background-color: #333;
+  font-size: 1.5em;
+  text-decoration: none;
+  border: 1px solid #777;
+  cursor: default;
+}
+
+.hidden {
+  display: none;
+}
+
+.header {
+  padding: 1.1em 1em 1em 1em;
+  background-color: #333;
+  font-size: 2em;
+}
+
+.header>a {
+  text-decoration: none;
+  color: #FFF;
+}
+
+.color-yellow {
+  color: #EDFF00;
+}
+
+.font-graph {
+  font-family: "Graph", "Proxima Nova", "Segoe UI", "HelveticaNeue-Bold", sans-serif;
+  font-weight: bold;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75em;
+  flex-direction: column;
+}
+
+.footer>img {
+  width: 10vw;
+}
+
+.footer>p {
+  padding: 0 0.5em 0 0.5em;
+}
+
+.login-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2em 0;
+}
+.login-panel>a {
+  color:#FFF;
+  background-color:#555;
+  padding:1em;
+  font-size:1.5em;
+  border-radius:0.5em;
+  text-decoration: none;
+}
+.login-panel>a:hover {
+  color:#555;
+  background-color:#FFF;
+}
+#list-meets {
+  list-style: none;
+  padding: 0 5vw;
+}
+
+#info-items {
+  list-style: none;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-top: 0;
+  padding: 0;
+}
+
+#info-items:nth-child(1)>li {
+  border-radius: 1em;
+}
+
+#main-content {
+  display: flex;
+  margin: 1em 5vw;
+  border-radius: 1em;
+  background-color: #333;
+  flex-direction: column;
+}
+
+#meet-name-header {
+  margin: 1em calc(0.5em + 5vw);
+}
+
+#content-form {
+  padding: 1em;
+  border-radius: 1em 1em 0 0;
+  background-color: #555;
+  display: flex;
+  flex-direction: column;
+}
+
+#notable-occurrence-textarea {
+  border-radius: 0.5em 0.5em 0 0;
+  padding: 1em;
+  background-color: #555;
+  border: 1px solid #888;
+  font-size: 1.5em;
+  color: white;
+  font-family: monospace;
+}
+
+#notable-occurrence-textarea:focus {
+  border: 1px solid #BBB;
+  outline: none;
+}
+
+#notable-occurrence-submit {
+  background-color: #BBB;
+  margin-top: 0.5em;
+  border: none;
+  font-size: 1.5em;
+}
