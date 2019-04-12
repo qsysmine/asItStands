@@ -12,6 +12,12 @@
     // The signed-in user info.
     var user = result.user;
     console.log(user.uid);
+    var isAdmin = true;
+    firebase.database().ref("admins").once("value").catch(() => {
+      isAdmin = false;
+    }).finally(() => {
+      if(!isAdmin) alert("You are not an admin; signing out") && firebase.auth().signOut();
+    });
   }).catch(function(error) {
     // Handle Errors here.
     var errorCode = error.code;
