@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,17 +9,28 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>AS IT STANDS</title>
 </head>
+
 <body>
   <div class="header font-graph">
     AS <span class="color-yellow">IT</span> STANDS
   </div>
+  <form action="." id="meet-form">
+    <h2 class="font-graph">Add meet</h2>
+    <input type="text" name="meet-name" id="meet-name-input" placeholder="name">
+    <input type="text" name="meet-date" id="meet-date-input" placeholder="date">
+    <input class="font-graph" type="submit" value="Post" id="notable-occurrence-submit">
+  </form>
+  <br>
   <ul id="list-meets">
     <li class="hidden mfd list-meets-item template" id="list-meets-item-template">
       <div class="list-meets-item-part">
         <a class="list-meets-item-link font-graph" {{disabled}} href="meetView?meet={{meetID}}">{{meetName}}</a>
       </div>
       <div class="list-meets-item-part list-meets-item-data">
-        Date: {{meetDate}}
+        Date: {{meetDate}} <br>
+        <div class="meet-deleteButton">
+          <a href="javascript:deleteMeet('{{meetKey}}')" class="font-graph">Delete</a>
+        </div>
       </div>
     </li>
   </ul>
@@ -44,7 +56,8 @@
   firebase.initializeApp(config);
 </script>
 <!--/fb-->
-<script src="assets/sampleData.js"></script>
+<script src="assets/data.js"></script>
 <script src="assets/home.js"></script>
 <script src="assets/admin.js"></script>
+
 </html>

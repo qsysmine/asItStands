@@ -20,57 +20,63 @@
   });
 })();
 (function() {
-    var meetID = location.search.split("meet=")[1].split(/\&|\?|\//)[0];
-    document.getElementById("meet-id-input").value = meetID;
-    getMeets().then((meets) => {
-      var meet = meets.val()[meetID];
-      if (!meet) return;
-      var meetName = meet.name;
-      document.getElementById("meet-name-header").innerHTML = meetName + " <input type='checkbox' class='hidden' id='meetActiveCheck' " + (meet.active ? "checked" : "") + ">";
-      document.getElementById("meetActiveCheck").onchange = function() {
-        var meetID = document.getElementById("meet-id-input").value;
-        var willBeActive = document.getElementById("meetActiveCheck").checked;
-        firebase.database().ref("meets/" + meetID + "/active").set(willBeActive);
+  var splitURL = location.search.split("meet=");
+  if(splitURL.length == 1) {
+    location.assign("..");
+  }
+  var meetID = splitURL[1].split(/\&|\?|\//)[0];
+  document.getElementById("meet-id-input").value = meetID;
+  getMeets().then((meets) => {
+    var meet = meets.val()[meetID];
+    if (!meet) location.assign("..");
+    var meetName = meet.name;
+    document.getElementById("meet-name-header").innerHTML = meetName + " <input type='checkbox' class='hidden' id='meetActiveCheck' " + (meet.active ? "checked" : "") + ">";
+    document.getElementById("meetActiveCheck").onchange = function() {
+      var meetID = document.getElementById("meet-id-input").value;
+      var willBeActive = document.getElementById("meetActiveCheck").checked;
+      firebase.database().ref("meets/" + meetID + "/active").set(willBeActive);
+    }
+    document.getElementsByTagName("title")[0].innerText = meetName + " : As It Stands";
+    getMeetStatus(meetID, (meetStatuses) => {
+      var meetStatusesArray = [];
+      for (meetStatusID in meetStatuses.val()) {
+        meetStatusesArray.push(meetStatuses.val()[meetStatusID]);
       }
-      document.getElementsByTagName("title")[0].innerText = meetName + " : As It Stands";
-      getMeetStatus(meetID, (meetStatuses) => {
-        var meetStatusesArray = [];
-        for (meetStatusID in meetStatuses.val()) {
-          meetStatusesArray.push(meetStatuses.val()[meetStatusID]);
+      var isAdmin = true;
+
+      var sigla = function() {
+        console.log(meet);
+
+        if (isAdmin) document.getElementById("meetActiveCheck").setAttribute("class", "");
+
+        document.getElementById("info-items").innerHTML = meetStatusesArray.sort((a, b) => {
+          return b.timestamp - a.timestamp
+        }).map((meetStatus) => {
+          return createInfoItem(meetStatus, isAdmin)
+        }).join("\n");
+
+        if (!meet.active && !isAdmin && document.getElementById("content-form") != null) {
+          var contentForm = document.getElementById("content-form");
+          contentForm.parentNode.removeChild(contentForm);
         }
-        var isAdmin = true;
 
-        var sigla = function() {
-          console.log(meet);
-
-          if(isAdmin) document.getElementById("meetActiveCheck").setAttribute("class", "");
-          
-          document.getElementById("info-items").innerHTML = meetStatusesArray.sort((a, b) => {
-            return b.timestamp - a.timestamp
-          }).map((meetStatus) => {return createInfoItem(meetStatus, isAdmin)}).join("\n");
-
-          if (!meet.active && !isAdmin && document.getElementById("content-form") != null) {
-            var contentForm = document.getElementById("content-form");
-            contentForm.parentNode.removeChild(contentForm);
-          }
-
-          if (meetStatusesArray.length == 0) {
-            document.getElementById("info-items").innerHTML = '<li class="info-item" id="info-item-template">\
+        if (meetStatusesArray.length == 0) {
+          document.getElementById("info-items").innerHTML = '<li class="info-item" id="info-item-template">\
              <p class="info-item-content font-graph">No info yet. {{action}}.</p>\
              </li>'.replace(/{{action}}/g, meet.active ? "Try submitting something ↑" : "Check back later for more");
-            return;
-          }
+          return;
+        }
 
-        };
+      };
 
-        firebase.database().ref("admins").once("value").catch(() => {
-          isAdmin = false;
-          console.log("not admin");
-        }).finally(() => {
-          sigla();
-        });
+      firebase.database().ref("admins").once("value").catch(() => {
+        isAdmin = false;
+        console.log("not admin");
+      }).finally(() => {
+        sigla();
       });
     });
+  });
 })();
 (function() {
   document.getElementById("content-form").onsubmit = function(e) {
@@ -100,7 +106,7 @@
           console.log("not banned");
           banned = false;
         }).finally(() => {
-          if(banned) {
+          if (banned) {
             alert("Post failed: you have been banned");
             location.reload();
           }
@@ -117,20 +123,22 @@
     firebase.database().ref("bannedUsers").child(userID).set(true).then(() => {
       firebase.database().ref("meetStatuses/" + meetID).once("value").then((snapshot) => {
         var value = snapshot.val();
-        for(valueItem_ in value) {
+        for (valueItem_ in value) {
           var valueItem = value[valueItem_];
-          if(valueItem.owner == userID) deleteInfoItem(valueItem_);
+          if (valueItem.owner == userID) deleteInfoItem(valueItem_);
         }
       })
-    }).catch(() => {console.log("ban failed")});;
+    }).catch(() => {
+      console.log("ban failed")
+    });;
 
   }
 })();
 (function() {
   window.sanitize = function(string) {
     var sanitizerNode = document.createElement("div");
-    sanitizerNode.innerText = string;
-    var sanitizedMessage = sanitizerNode.innerHTML;
+    sanitizerNode.innerText = (string + "").replace(/\n|\r/g, " ");
+    var sanitizedMessage = sanitizerNode.innerHTML.replace(/"/g, "&quot;");
     delete sanitizerNode;
     return sanitizedMessage;
   }

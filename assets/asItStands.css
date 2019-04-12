@@ -13,8 +13,8 @@ date {
 
 .info-item {
   padding: 1em;
-  display:flex;
-  flex-direction:row;
+  display: flex;
+  flex-direction: row;
 }
 
 .info-item-content {
@@ -32,19 +32,22 @@ date {
 .info-item:last-child {
   border-radius: 0 0 1em 1em;
 }
+
 .info-item-mostPart {
-  flex:1;
+  flex: 1;
 }
+
 .info-item-deleteButton {
-  display:flex;
+  display: flex;
   align-items: center;
 }
-.info-item-deleteButton>a {
-  color:#FFF;
+
+.info-item-deleteButton>a, .meet-deleteButton>a {
+  color: #FFF;
   text-decoration: none;
-  background-color:#555;
-  padding:1em;
-  margin-top:0.1em;
+  background-color: #555;
+  padding: 1em;
+  margin-top: 0.1em;
 }
 
 .list-meets-item {
@@ -106,10 +109,6 @@ date {
   cursor: default;
 }
 
-.hidden {
-  display: none;
-}
-
 .header {
   padding: 1.1em 1em 1em 1em;
   background-color: #333;
@@ -152,18 +151,21 @@ date {
   justify-content: center;
   margin: 2em 0;
 }
+
 .login-panel>a {
-  color:#FFF;
-  background-color:#555;
-  padding:1em;
-  font-size:1.5em;
-  border-radius:0.5em;
+  color: #FFF;
+  background-color: #555;
+  padding: 1em;
+  font-size: 1.5em;
+  border-radius: 0.5em;
   text-decoration: none;
 }
+
 .login-panel>a:hover {
-  color:#555;
-  background-color:#FFF;
+  color: #555;
+  background-color: #FFF;
 }
+
 #list-meets {
   list-style: none;
   padding: 0 5vw;
@@ -222,4 +224,27 @@ date {
   margin-top: 0.5em;
   border: none;
   font-size: 1.5em;
+}
+
+#meet-form:not(.hidden) {
+  margin: 2em calc(5vw + 1em) 1em calc(5vw + 1em);
+  display: flex;
+  flex-direction: column;
+  background-color: #555;
+  padding: 2em 1em 2em 1em;
+  border-radius: 0.5em;
+}
+
+#meet-form>h2 {
+  margin: 0;
+}
+
+#meet-form>input[type=text] {
+  margin-top: 1em;
+  font-size: 1.5em;
+  font-family: monospace;
+}
+
+.hidden {
+  display: none;
 }
