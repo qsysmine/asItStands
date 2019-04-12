@@ -5,8 +5,11 @@
   window.createInfoItem = function(meetStatus, isAdmin) {
     var d = new Date();
     d.setTime(meetStatus.timestamp);
+    var sanitizerNode = document.createElement("div");
+    sanitizerNode.innerText = meetStatus.message;
+    var sanitizedMessage = sanitizerNode.innerHTML;
     var infoItem = infoItemTemplateHTML
-      .replace(/{{infoItemContent}}/g, meetStatus.message)
+      .replace(/{{infoItemContent}}/g, sanitizedMessage)
       .replace(/{{infoItemTimestamp}}/g, d.toLocaleDateString() + " at " + (d.getHours() > 10 ? d.getHours() : "0" + d.getHours()) + ":" + (d.getMinutes() > 10 ? d.getMinutes() : "0" + d.getMinutes()))
       .replace(/hidden mfd/g, "")
       .replace(/info-item-deleteButton/g, isAdmin ? "info-item-deleteButton" : "hidden")
