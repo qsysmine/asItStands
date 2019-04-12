@@ -26,7 +26,12 @@
       var meet = meets.val()[meetID];
       if (!meet) return;
       var meetName = meet.name;
-      document.getElementById("meet-name-header").innerText = meetName;
+      document.getElementById("meet-name-header").innerHTML = meetName + " <input type='checkbox' class='hidden' id='meetActiveCheck' " + (meet.active ? "checked" : "") + ">";
+      document.getElementById("meetActiveCheck").onchange = function() {
+        var meetID = document.getElementById("meet-id-input").value;
+        var willBeActive = document.getElementById("meetActiveCheck").checked;
+        firebase.database().ref("meets/" + meetID + "/active").set(willBeActive);
+      }
       document.getElementsByTagName("title")[0].innerText = meetName + " : As It Stands";
       getMeetStatus(meetID, (meetStatuses) => {
         var meetStatusesArray = [];
@@ -38,6 +43,8 @@
         var sigla = function() {
           console.log(meet);
 
+          if(isAdmin) document.getElementById("meetActiveCheck").setAttribute("class", "");
+          
           document.getElementById("info-items").innerHTML = meetStatusesArray.sort((a, b) => {
             return b.timestamp - a.timestamp
           }).map((meetStatus) => {return createInfoItem(meetStatus, isAdmin)}).join("\n");
