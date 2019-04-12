@@ -5,16 +5,14 @@
   window.createInfoItem = function(meetStatus, isAdmin) {
     var d = new Date();
     d.setTime(meetStatus.timestamp);
-    var sanitizerNode = document.createElement("div");
-    sanitizerNode.innerText = meetStatus.message;
-    var sanitizedMessage = sanitizerNode.innerHTML;
+    var sanitizedMessage = sanitize(meetStatus.message);
     var infoItem = infoItemTemplateHTML
       .replace(/{{infoItemContent}}/g, sanitizedMessage)
       .replace(/{{infoItemTimestamp}}/g, d.toLocaleDateString() + " at " + (d.getHours() > 10 ? d.getHours() : "0" + d.getHours()) + ":" + (d.getMinutes() > 10 ? d.getMinutes() : "0" + d.getMinutes()))
       .replace(/hidden mfd/g, "")
       .replace(/info-item-deleteButton/g, isAdmin ? "info-item-deleteButton" : "hidden")
-      .replace(/{{owner}}/g, meetStatus.owner)
-      .replace(/{{infoItemKey}}/g, meetStatus.id);
+      .replace(/{{owner}}/g, sanitize(meetStatus.owner))
+      .replace(/{{infoItemKey}}/g, sanitize(meetStatus.id));
     return infoItem;
   };
   [].slice.call(document.getElementsByClassName("mfd")).forEach((el) => {
@@ -107,5 +105,14 @@
       })
     }).catch(() => {console.log("ban failed")});;
 
+  }
+})();
+(function() {
+  window.sanitize = function(string) {
+    var sanitizerNode = document.createElement("div");
+    sanitizerNode.innerText = string;
+    var sanitizedMessage = sanitizerNode.innerHTML;
+    delete sanitizerNode;
+    return sanitizedMessage;
   }
 })();
