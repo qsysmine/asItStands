@@ -86,6 +86,18 @@
       }).then((id) => {
         console.log("Posted at " + id);
         document.getElementById("content-form").reset();
+      }).catch(() => {
+        console.log("post failed... checking if banned");
+        var banned = true;
+        firebase.database().ref("bannedUsers/" + firebase.auth().currentUser.uid).once("value").catch(() => {
+          console.log("not banned");
+          banned = false;
+        }).finally(() => {
+          if(banned) {
+            alert("Post failed: you have been banned");
+            location.reload();
+          }
+        });
       });
     })
   };
