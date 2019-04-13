@@ -91,6 +91,10 @@
     if (!content || content.trim() == "") {
       return;
     }
+    if(content.length > 200) {
+      alert("Submission length must be less than 200 characters.");
+      return;
+    }
     authenticate().then(() => {
       postInfo(meetID, {
         timestamp: new Date().getTime(),
